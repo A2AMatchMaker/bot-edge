@@ -10,18 +10,25 @@
             --secondary: #00d4ff;
             --bg-dark: #0a0a0f;
             --bg-card: #12121a;
+            --bg-hover: #1a1a25;
             --text-primary: #ffffff;
             --text-secondary: #a0a0b0;
             --border: #2a2a3a;
+            --success: #00ff88;
+            --warning: #ffaa00;
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-dark);
             color: var(--text-primary);
             line-height: 1.6;
         }
+        
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
         header {
             display: flex;
             justify-content: space-between;
@@ -30,6 +37,7 @@
             border-bottom: 1px solid var(--border);
             margin-bottom: 40px;
         }
+        
         .logo {
             display: flex;
             align-items: center;
@@ -37,6 +45,7 @@
             text-decoration: none;
             color: var(--text-primary);
         }
+        
         .logo-icon {
             width: 45px;
             height: 45px;
@@ -49,6 +58,7 @@
             font-weight: bold;
             color: var(--bg-dark);
         }
+        
         .btn {
             padding: 12px 24px;
             border: none;
@@ -58,28 +68,46 @@
             cursor: pointer;
             transition: all 0.2s;
         }
+        
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: var(--bg-dark);
         }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+        
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 16px;
+        }
+        
+        h1 { font-size: 32px; margin-bottom: 30px; }
+        
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
+        
         .dashboard-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 30px;
         }
+        
         .dashboard-card h3 {
             font-size: 14px;
             color: var(--text-secondary);
             text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 15px;
         }
+        
         .dashboard-value {
             font-size: 36px;
             font-weight: 700;
@@ -87,61 +115,127 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        h1 { font-size: 32px; margin-bottom: 30px; }
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            border-top: 1px solid var(--border);
+        
+        .dashboard-sub {
+            font-size: 13px;
             color: var(--text-secondary);
+            margin-top: 8px;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <a href="index.html" class="logo">
-                <div class="logo-icon">⚡</div>
-                <h1>BotEdge</h1>
-            </a>
-            <button class="btn btn-primary" onclick="connectWallet()">Connect Wallet</button>
-        </header>
         
-        <h1>🎯 Referral Dashboard</h1>
-        
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <h3>Available to Claim</h3>
-                <div class="dashboard-value" id="claimableEarnings">0 ETH</div>
-            </div>
-            <div class="dashboard-card">
-                <h3>Total Referrals</h3>
-                <div class="dashboard-value" id="totalReferrals">0</div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>BotEdge Referral Dashboard — Base Sepolia Testnet</p>
-        </footer>
-    </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
-    <script>
-        const CONTRACT_ADDRESS = '0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8';
-        
-        async function connectWallet() {
-            if (typeof window.ethereum === 'undefined') {
-                alert('Please install a wallet extension!');
-                return;
-            }
-            try {
-                const provider = new ethers.BrowserProvider(window.ethereum);
-                const signer = await provider.getSigner();
-                const userAddress = await signer.getAddress();
-                alert('Connected: ' + userAddress.slice(0, 6) + '...' + userAddress.slice(-4));
-            } catch (error) {
-                alert('Failed to connect wallet');
-            }
+        .referral-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
         }
-    </script>
-</body>
-</html>
+        
+        .referral-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .referral-link-box {
+            display: flex;
+            gap: 10px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .referral-link-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: monospace;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .share-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .share-twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+        
+        .share-copy {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .referrals-table {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+        
+        .referrals-table h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 15px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        td {
+            padding: 15px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-active {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--success);
+        }
+        
+        .level-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .level-1 {
+            background: rgba
